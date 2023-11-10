@@ -1,0 +1,3 @@
+ca65 Deliverable3/animation.asm
+ca65 Deliverable3/reset.asm
+ld65 Deliverable3/reset.o Deliverable3/animation.o -C nes.cfg -o Deliverable3/animation.nes                       
