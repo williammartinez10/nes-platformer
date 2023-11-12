@@ -56,7 +56,7 @@ This project aims to create a platformer game where a player can jump and move a
 - **```Deliverable4:```** Folder with program that allows the player to move through the background, with respect to the buttons pressed on the control.
 
 ## How to Compile Each Deliverable
-- Go to ```compiling-resources``` folder, choose the text file corresponding to the deliverable you are going to test out, copy and paste its contents in the terminal.
+- Go to ```compiling-resources``` folder, choose the text file corresponding to the deliverable you are going to test out, copy and paste its contents in the terminal. (**Note**: You need to be inside the ```Project``` directory, in order to be able to use the .txt files inside compiling resources)
 
 ## Dependencies
 - Assembler ```ca65``` and linker ```ld65``` - https://cc65.github.io/
