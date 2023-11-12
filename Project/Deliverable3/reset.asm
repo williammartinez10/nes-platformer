@@ -1,5 +1,8 @@
 .include "constants.inc"
 
+.segment "ZEROPAGE"
+.importzp player_x, player_y
+
 .segment "CODE"
 .import main
 .export reset_handler
@@ -17,7 +20,7 @@ vblankwait:
 	LDX #$00
 	LDA #$ff
 clear_oam:
-	STA $0200,X ; set sprite y-positions off the screen
+	STA $0200,X ; ----------------------------- set sprite y-positions off the screen
 	INX
 	INX
 	INX
@@ -27,6 +30,11 @@ clear_oam:
 vblankwait2:
 	BIT PPUSTATUS
 	BPL vblankwait2
+
+	LDA #$75
+	STA player_x
+	LDA #$7f
+	STA player_y
 
   JMP main
 .endproc

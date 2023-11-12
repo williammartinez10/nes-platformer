@@ -1,6 +1,11 @@
 .include "constants.inc"
 .include "header.inc"
 
+.segment "ZEROPAGE"
+player_x: .res 1
+player_y: .res 1
+.exportzp player_x, player_y
+
 .segment "CODE"
 .proc irq_handler
     RTI
@@ -35,16 +40,6 @@ load_palettes:
     CPX #$20
     BNE @load_palettes_loop
 
-    ; write sprite data
-    LDX #$00
-load_sprites:
-    LDA sprites,X
-    STA $0200,X
-    INX
-    CPX #$d0
-    BNE load_sprites
-
-
 vblankwait: ; ----------------------------- wait for another vblank before continuing
     BIT PPUSTATUS
     BPL vblankwait
@@ -54,7 +49,213 @@ vblankwait: ; ----------------------------- wait for another vblank before conti
     STA PPUMASK
 
 forever:
+    JSR draw_player_walking1
+    JSR draw_player_walking2
+    JSR draw_player_walking3
+
     JMP forever
+.endproc
+
+
+.proc draw_player_walking1
+    PHP
+    PHA
+    TXA
+    PHA
+    TYA
+    PHA
+
+    LDA #$11
+    STA $0201
+    LDA #$12
+    STA $0205
+    LDA #$43
+    STA $0209
+    LDA #$44
+    STA $020d
+
+    LDA #$00
+    STA $0202
+    STA $0206
+    STA $020a
+    STA $020e
+
+    ; store tile locations
+    ; top left tile:
+    LDA player_y
+    STA $0200
+    LDA player_x
+    STA $0203
+
+    ; top right tile (x + 8):
+    LDA player_y
+    STA $0204
+    LDA player_x
+    CLC
+    ADC #$08
+    STA $0207
+
+    ; bottom left tile (y + 8):
+    LDA player_y
+    CLC
+    ADC #$08
+    STA $0208
+    LDA player_x
+    STA $020b
+
+    ; bottom right tile (x + 8, y + 8)
+    LDA player_y
+    CLC
+    ADC #$08
+    STA $020c
+    LDA player_x
+    CLC
+    ADC #$08
+    STA $020f
+
+    LDA #%00000000
+
+    PLA
+    TAY
+    PLA
+    TAX
+    PLA
+    PLP
+    RTS
+.endproc
+
+.proc draw_player_walking2
+    PHP
+    PHA
+    TXA
+    PHA
+    TYA
+    PHA
+
+    LDA #$11
+    STA $0201
+    LDA #$12
+    STA $0205
+    LDA #$45
+    STA $0209
+    LDA #$46
+    STA $020d
+
+    LDA #$00
+    STA $0202
+    STA $0206
+    STA $020a
+    STA $020e
+
+    ; store tile locations
+    ; top left tile:
+    LDA player_y
+    STA $0200
+    LDA player_x
+    STA $0203
+
+    ; top right tile (x + 8):
+    LDA player_y
+    STA $0204
+    LDA player_x
+    CLC
+    ADC #$08
+    STA $0207
+
+    ; bottom left tile (y + 8):
+    LDA player_y
+    CLC
+    ADC #$08
+    STA $0208
+    LDA player_x
+    STA $020b
+
+    ; bottom right tile (x + 8, y + 8)
+    LDA player_y
+    CLC
+    ADC #$08
+    STA $020c
+    LDA player_x
+    CLC
+    ADC #$08
+    STA $020f
+
+    LDA #%00000000
+
+    PLA
+    TAY
+    PLA
+    TAX
+    PLA
+    PLP
+    RTS
+.endproc
+
+.proc draw_player_walking3
+    PHP
+    PHA
+    TXA
+    PHA
+    TYA
+    PHA
+
+    LDA #$11
+    STA $0201
+    LDA #$12
+    STA $0205
+    LDA #$2c
+    STA $0209
+    LDA #$2d
+    STA $020d
+
+    LDA #$00
+    STA $0202
+    STA $0206
+    STA $020a
+    STA $020e
+
+    ; store tile locations
+    ; top left tile:
+    LDA player_y
+    STA $0200
+    LDA player_x
+    STA $0203
+
+    ; top right tile (x + 8):
+    LDA player_y
+    STA $0204
+    LDA player_x
+    CLC
+    ADC #$08
+    STA $0207
+
+    ; bottom left tile (y + 8):
+    LDA player_y
+    CLC
+    ADC #$08
+    STA $0208
+    LDA player_x
+    STA $020b
+
+    ; bottom right tile (x + 8, y + 8)
+    LDA player_y
+    CLC
+    ADC #$08
+    STA $020c
+    LDA player_x
+    CLC
+    ADC #$08
+    STA $020f
+
+    LDA #%00000000
+
+    PLA
+    TAY
+    PLA
+    TAX
+    PLA
+    PLP
+    RTS
 .endproc
 
 
@@ -75,39 +276,6 @@ palettes:
     .byte $0f, $3d, $30, $3c
     .byte $0f, $19, $09, $29
     .byte $0f, $19, $09, $29
-
-
-sprites:
-    ; #############################
-    ; ----------- still -----------
-    ; #############################
-    ; facing right
-    .byte $c8, $11, $00, $08
-    .byte $d0, $21, $00, $08
-    .byte $c8, $12, $00, $10
-    .byte $d0, $22, $00, $10
-
-
-    ; #############################
-    ; ---------- walking ----------
-    ; #############################
-    ; facing right
-    ; ---------- 1 ---------
-    .byte $b0, $11, $00, $18
-    .byte $b0, $12, $00, $20
-    .byte $b8, $45, $00, $18
-    .byte $b8, $46, $00, $20
-    ; ---------- 2 ----------
-    .byte $b0, $11, $00, $28
-    .byte $b0, $12, $00, $30
-    .byte $b8, $2c, $00, $28
-    .byte $b8, $2d, $00, $30
-    ; ---------- 3 ----------
-    .byte $b0, $11, %00, $08
-    .byte $b0, $12, %00, $10
-    .byte $b8, $43, %00, $08
-    .byte $b8, $44, %00, $10
-
 
 
 .segment "CHR"
