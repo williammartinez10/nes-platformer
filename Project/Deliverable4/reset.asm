@@ -20,7 +20,7 @@ vblankwait:
 	LDX #$00
 	LDA #$ff
 clear_oam:
-	STA $0200,X ; set sprite y-positions off the screen
+	STA $0200,X ; ----------------------------- set sprite y-positions off the screen
 	INX
 	INX
 	INX
@@ -31,6 +31,7 @@ vblankwait2:
 	BIT PPUSTATUS
 	BPL vblankwait2
 
+	; ----------------------------------------- zeropage values initialization
 	LDA #$75
 	STA player_x
 	LDA #$7f

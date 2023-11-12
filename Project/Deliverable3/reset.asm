@@ -31,6 +31,7 @@ vblankwait2:
 	BIT PPUSTATUS
 	BPL vblankwait2
 
+	; ----------------------------------------- zeropage values initialization
 	LDA #$75
 	STA player_x
 	LDA #$7f

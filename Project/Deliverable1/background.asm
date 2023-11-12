@@ -44,9 +44,9 @@ load_background:
 	LDA #$00
 	STA PPUADDR
 
-	LDA #<canvas ; ------------------------ load least significant byte from background graphic layout
+	LDA #<canvas ; ------------------------ load least significant byte from background graphic layout (#<)
 	STA LOWBYTE                        
-	LDA #>canvas ; ------------------------ load most significant byte from background graphic layout
+	LDA #>canvas ; ------------------------ load most significant byte from background graphic layout (#>)
 	STA HIGHBYTE
 	LDX #$00                         
 	LDY #$00
@@ -93,6 +93,7 @@ palettes:
     .byte $0f, $00, $00, $00
     .byte $0f, $00, $00, $00
     .byte $0f, $00, $00, $00
+
 
 .include "canvas.asm" ; ----------------- background graphic layout
 

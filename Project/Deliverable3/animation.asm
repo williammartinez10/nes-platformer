@@ -2,8 +2,8 @@
 .include "header.inc"
 
 .segment "ZEROPAGE"
-player_x: .res 1
-player_y: .res 1
+player_x: .res 1 ; ---------------------- for referencing an x coordinate
+player_y: .res 1 ; ---------------------- for referencing a y coordinate
 .exportzp player_x, player_y
 
 .segment "CODE"
@@ -26,7 +26,7 @@ player_y: .res 1
 
 .export main
 .proc main
-    ; write a palette
+    ; ----------------------------------- write a palette
 load_palettes:
     LDX PPUSTATUS
     LDX #$3f
@@ -40,24 +40,26 @@ load_palettes:
     CPX #$20
     BNE @load_palettes_loop
 
-vblankwait: ; ----------------------------- wait for another vblank before continuing
+vblankwait: ; --------------------------- wait for another vblank before continuing
     BIT PPUSTATUS
     BPL vblankwait
-    LDA #%10010000 ; ---------------------- turn on NMIs, sprites use first pattern table
+    LDA #%10010000 ; -------------------- turn on NMIs, sprites use first pattern table
     STA PPUCTRL
-    LDA #%00011110 ; ---------------------- turn on screen
+    LDA #%00011110 ; -------------------- turn on screen
     STA PPUMASK
 
 forever:
-    JSR draw_player_walking1
-    JSR draw_player_walking2
-    JSR draw_player_walking3
+    ; ----------------------------------- infinite loop helps maintain the animation for a long time
+    JSR draw_player_walking1 ; ---------- walking animation - sprite 1
+    JSR draw_player_walking2 ; ---------- walking animation - sprite 2
+    JSR draw_player_walking3 ; ---------- walking animation - sprite 3
 
     JMP forever
 .endproc
 
 
 .proc draw_player_walking1
+    ; ----------------------------------- keep track of state of the registers on the stack
     PHP
     PHA
     TXA
@@ -65,6 +67,7 @@ forever:
     TYA
     PHA
 
+    ; ----------------------------------- write player tiles to be used for this frame
     LDA #$11
     STA $0201
     LDA #$12
@@ -74,20 +77,21 @@ forever:
     LDA #$44
     STA $020d
 
+    ; ----------------------------------- player tile attributes, including corresponding palette
     LDA #$00
     STA $0202
     STA $0206
     STA $020a
     STA $020e
 
-    ; store tile locations
-    ; top left tile:
+    ; ----------------------------------- store tile locations
+    ; ----------------------------------- top left tile:
     LDA player_y
     STA $0200
     LDA player_x
     STA $0203
 
-    ; top right tile (x + 8):
+    ; ----------------------------------- top right tile (x + 8):
     LDA player_y
     STA $0204
     LDA player_x
@@ -95,7 +99,7 @@ forever:
     ADC #$08
     STA $0207
 
-    ; bottom left tile (y + 8):
+    ; ----------------------------------- bottom left tile (y + 8):
     LDA player_y
     CLC
     ADC #$08
@@ -103,7 +107,7 @@ forever:
     LDA player_x
     STA $020b
 
-    ; bottom right tile (x + 8, y + 8)
+    ; ----------------------------------- bottom right tile (x + 8, y + 8)
     LDA player_y
     CLC
     ADC #$08
@@ -113,8 +117,9 @@ forever:
     ADC #$08
     STA $020f
 
-    LDA #%00000000
+    LDA #%00000000 ; -------------------- helps make frame transitiones smoother by setting all bits to 0
 
+    ; ----------------------------------- reverse everything that was stored at the beginning, in opposite order
     PLA
     TAY
     PLA
@@ -125,6 +130,7 @@ forever:
 .endproc
 
 .proc draw_player_walking2
+    ; ----------------------------------- keep track of state of the registers on the stack
     PHP
     PHA
     TXA
@@ -132,6 +138,7 @@ forever:
     TYA
     PHA
 
+    ; ----------------------------------- write player tiles to be used for this frame
     LDA #$11
     STA $0201
     LDA #$12
@@ -141,20 +148,21 @@ forever:
     LDA #$46
     STA $020d
 
+    ; ----------------------------------- player tile attributes, including corresponding palette
     LDA #$00
     STA $0202
     STA $0206
     STA $020a
     STA $020e
 
-    ; store tile locations
-    ; top left tile:
+    ; ----------------------------------- store tile locations
+    ; ----------------------------------- top left tile:
     LDA player_y
     STA $0200
     LDA player_x
     STA $0203
 
-    ; top right tile (x + 8):
+    ; ----------------------------------- top right tile (x + 8):
     LDA player_y
     STA $0204
     LDA player_x
@@ -162,7 +170,7 @@ forever:
     ADC #$08
     STA $0207
 
-    ; bottom left tile (y + 8):
+    ; ----------------------------------- bottom left tile (y + 8):
     LDA player_y
     CLC
     ADC #$08
@@ -170,7 +178,7 @@ forever:
     LDA player_x
     STA $020b
 
-    ; bottom right tile (x + 8, y + 8)
+    ; ----------------------------------- bottom right tile (x + 8, y + 8)
     LDA player_y
     CLC
     ADC #$08
@@ -180,8 +188,9 @@ forever:
     ADC #$08
     STA $020f
 
-    LDA #%00000000
+    LDA #%00000000 ; -------------------- helps make frame transitiones smoother by setting all bits to 0
 
+    ; ----------------------------------- reverse everything that was stored at the beginning, in opposite order
     PLA
     TAY
     PLA
@@ -192,6 +201,7 @@ forever:
 .endproc
 
 .proc draw_player_walking3
+    ; ----------------------------------- keep track of state of the registers on the stack
     PHP
     PHA
     TXA
@@ -199,6 +209,7 @@ forever:
     TYA
     PHA
 
+    ; ----------------------------------- write player tiles to be used for this frame
     LDA #$11
     STA $0201
     LDA #$12
@@ -206,22 +217,23 @@ forever:
     LDA #$2c
     STA $0209
     LDA #$2d
-    STA $020d
+    STA $020d 
 
+    ; ----------------------------------- player tile attributes, including corresponding palette
     LDA #$00
     STA $0202
     STA $0206
     STA $020a
     STA $020e
 
-    ; store tile locations
-    ; top left tile:
+    ; ----------------------------------- store tile locations
+    ; ----------------------------------- top left tile:
     LDA player_y
     STA $0200
     LDA player_x
     STA $0203
 
-    ; top right tile (x + 8):
+    ; ----------------------------------- top right tile (x + 8):
     LDA player_y
     STA $0204
     LDA player_x
@@ -229,7 +241,7 @@ forever:
     ADC #$08
     STA $0207
 
-    ; bottom left tile (y + 8):
+    ; ----------------------------------- bottom left tile (y + 8):
     LDA player_y
     CLC
     ADC #$08
@@ -237,7 +249,7 @@ forever:
     LDA player_x
     STA $020b
 
-    ; bottom right tile (x + 8, y + 8)
+    ; ----------------------------------- bottom right tile (x + 8, y + 8)
     LDA player_y
     CLC
     ADC #$08
@@ -247,8 +259,9 @@ forever:
     ADC #$08
     STA $020f
 
-    LDA #%00000000
+    LDA #%00000000 ; -------------------- helps make frame transitiones smoother by setting all bits to 0
 
+    ; ----------------------------------- reverse everything that was stored at the beginning, in opposite order
     PLA
     TAY
     PLA
@@ -265,13 +278,13 @@ forever:
 
 .segment "RODATA"
 palettes:
-    ; background
+    ; ----------------------------------- background
     .byte $0f, $3d, $30, $3c
     .byte $0f, $01, $21, $31
     .byte $0f, $06, $16, $26
     .byte $0f, $09, $19, $29
 
-    ; sprites
+    ; ----------------------------------- sprites
     .byte $0f, $18, $16, $29
     .byte $0f, $3d, $30, $3c
     .byte $0f, $19, $09, $29
