@@ -6,9 +6,10 @@ This project aims to create a platformer game where a player can jump and move a
 ## Folder Structure
 - Project
   - ```compiling-resources```
-    - e1-compiling-script.txt
-    - e2-compiling-script.txt
-    - e3-compiling-script.txt
+    - d1-compiling-script.txt
+    - d2-compiling-script.txt
+    - d3-compiling-script.txt
+    - d4-compiling-script.txt
   - ```Deliverable1```
     - background.asm
     - background.chr
@@ -61,7 +62,7 @@ This project aims to create a platformer game where a player can jump and move a
 ## Dependencies
 - Assembler ```ca65``` and linker ```ld65``` - https://cc65.github.io/
 - ```Nexxt``` gaphics tool - https://frankengraphics.itch.io/nexxt
-- ```Mesen2``` emulator - https://www.mesen.ca/
+- ```Mesen2``` emulator - https://www.mesen.ca/ (Alternative for Mac, ```Nintaco``` - https://nintaco.com/)
 - Text Editor of your choice
 
 ## Contact Information
