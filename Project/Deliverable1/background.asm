@@ -51,7 +51,7 @@ load_background:
 	LDX #$00                         
 	LDY #$00
 @load_background_loop:
-	LDA ($01), Y ; ------------------------ (indirect),Y => go over low bytes
+	LDA ($01), Y ; ------------------------ HIGHBYTE and LOWBYTE plus the Y register offset.
 	STA PPUDATA
 	INY
 	CPY #$00
