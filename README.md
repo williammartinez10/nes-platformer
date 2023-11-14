@@ -61,12 +61,13 @@ This project aims to create a platformer game where a player can jump and move a
 
   
 ## Videos Showcasing Each Deliverable
-- Videos regarding each of the deliverables have been published on YouTube. You can follow this link to visit a playlist dedicated for this: --placeholder--
+- Videos related to each of the deliverables have been published on YouTube. You can use the following link to visit a playlist dedicated for this.
+  - <a href="https://youtube.com/playlist?list=PLCaJpDWLRzoGp6fcWgpsY9xY7E-h9gVbY&si=enK-FdABqvhUVnQI">Project Playlist</a>
 - Alternatively, here are the individual links to each of the deliverable videos:
-  - --placeholder--
-  - --placeholder--
-  - --placeholder--
-  - --placeholder--
+  - <a href="https://youtu.be/yEXSIisJsQg">Deliverable 1</a>
+  - <a href="https://youtu.be/1dX8V92HoLM">Deliverable 2</a>
+  - <a href="https://youtu.be/GYdMxplBCbw">Deliverable 3</a>
+  - <a href="https://youtu.be/HZ_5M0yP_dI">Deliverable 4</a>
 
 
 ## Deliverable Captures (In order: 1, 2, 3, 4)
