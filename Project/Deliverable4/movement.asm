@@ -56,7 +56,7 @@ load_background:
 	LDX #$00                         
 	LDY #$00
 @load_background_loop:
-	LDA ($01), Y ; ---------------------- (indirect),Y => go over low bytes
+	LDA (LOWBYTE), Y ; ---------------------- (indirect),Y => go over low bytes
 	STA PPUDATA
 	INY
 	CPY #$00
