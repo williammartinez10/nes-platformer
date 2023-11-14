@@ -51,14 +51,14 @@ load_background:
 	LDX #$00                         
 	LDY #$00
 @load_background_loop:
-	LDA ($01), Y ; ------------------------ HIGHBYTE and LOWBYTE plus the Y register offset.
+	LDA (LOWBYTE), Y ; ------------------------ read 256 bytes from  LOWBYTE
 	STA PPUDATA
 	INY
 	CPY #$00
 	BNE @load_background_loop
-	INC HIGHBYTE ; ------------------------ increment memory by one
+	INC HIGHBYTE ; ------------------------ increment memory by one; located HIGHBYTE at next 256 bytes for reading
 	INX
-	CPX #$04
+	CPX #$04 ; ---------------------------- counter; it runs 4 times in order to cover whole background
 	BNE @load_background_loop
 
 
