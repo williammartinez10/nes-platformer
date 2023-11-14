@@ -51,7 +51,7 @@ load_background:
 	LDX #$00                         
 	LDY #$00
 @load_background_loop:
-	LDA (LOWBYTE), Y ; ------------------------ read 256 bytes from  LOWBYTE
+	LDA (LOWBYTE), Y ; -------------------- read 256 bytes from  LOWBYTE
 	STA PPUDATA
 	INY
 	CPY #$00
